@@ -1,2 +1,2 @@
-# sora-site
+# Sora
 Official Sora Browser website
