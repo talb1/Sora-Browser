@@ -1,61 +1,102 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sora Browser</title>
-<link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sora — macOS browser</title>
+  <meta name="description" content="Sora is a fast, lightweight macOS browser inspired by Arc." />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <header class="wrap header">
+    <a class="brand" href="index.html">Sora</a>
+    <nav class="nav">
+      <a href="#features">Features</a>
+      <a class="pill" href="download.html">Download</a>
+    </nav>
+  </header>
 
-<header class="wrap header">
-<div class="logo">Sora</div>
-<nav class="nav">
-<a href="#features">Features</a>
-<a href="download.html">Download</a>
-</nav>
-</header>
+  <main class="wrap">
+    <section class="hero">
+      <div class="heroText">
+        <div class="tag">macOS • SwiftUI • Lightweight</div>
+        <h1>Arc vibes.<br/>Sora speed.</h1>
+        <p class="sub">
+          I built Sora because Arc was the browser I used — and I wanted something with a similar feel,
+          but focused hard on being fast, minimal, and macOS-native.
+        </p>
 
-<main class="wrap">
+        <div class="cta">
+          <a class="btn primary" href="download.html">Download for macOS</a>
+          <a class="btn ghost" href="#features">See features</a>
+        </div>
 
-<section class="hero">
-<div>
-<h1>Fast. Lightweight. Built for macOS.</h1>
-<p class="sub">A minimal browser focused on performance.</p>
-<div class="cta">
-<a class="btn primary" href="download.html">Download for macOS</a>
-</div>
-</div>
+        <p class="fine">No trackers on this site. Static HTML/CSS. Loads instantly.</p>
+      </div>
 
-<div class="card">
-<div class="cardTitle">Latest Version</div>
-<div class="kv">
-<div class="k">Version</div><div class="v">1.0.0</div>
-<div class="k">macOS</div><div class="v">12+</div>
-<div class="k">Build</div><div class="v">Universal</div>
-</div>
-<a class="btn primary full" href="download.html">Get Sora</a>
-</div>
-</section>
+      <div class="panel">
+        <div class="panelTop">
+          <div class="dots">
+            <span></span><span></span><span></span>
+          </div>
+          <div class="panelTitle">Sora</div>
+        </div>
+        <div class="panelBody">
+          <div class="stat">
+            <div class="k">Latest</div>
+            <div class="v">v1.0.0</div>
+          </div>
+          <div class="stat">
+            <div class="k">Build</div>
+            <div class="v">Universal</div>
+          </div>
+          <div class="stat">
+            <div class="k">macOS</div>
+            <div class="v">12+</div>
+          </div>
 
-<section id="features" class="features">
-<h2>Features</h2>
-<div class="grid">
-<div class="feature">
-<h3>Lightweight UI</h3>
-<p>Clean interface.</p>
-</div>
-<div class="feature">
-<h3>Private Mode</h3>
-<p>Open private windows instantly.</p>
-</div>
-</div>
-</section>
+          <div class="divider"></div>
 
-<footer class="footer">
-<div>© 2026 Sora Browser</div>
-</footer>
+          <div class="bullets">
+            <div class="bullet">Native UI</div>
+            <div class="bullet">Fast tabs</div>
+            <div class="bullet">Private windows</div>
+          </div>
 
-</main>
+          <a class="btn primary full" href="download.html">Get Sora</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="features">
+      <h2>Features</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Minimal UI</h3>
+          <p>Clean layout that stays out of your way.</p>
+        </div>
+        <div class="card">
+          <h3>Keyboard-first</h3>
+          <p>Shortcuts for tabs, windows, and navigation.</p>
+        </div>
+        <div class="card">
+          <h3>Private mode</h3>
+          <p>Instant private windows when you want a clean session.</p>
+        </div>
+        <div class="card">
+          <h3>macOS-native</h3>
+          <p>Built with SwiftUI for smooth performance.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div>© 2026 Sora</div>
+      <div class="footerLinks">
+        <a href="download.html">Download</a>
+        <a href="privacy.html">Privacy</a>
+      </div>
+    </footer>
+  </main>
 </body>
 </html>
