@@ -11,15 +11,20 @@
 
 *{box-sizing:border-box}
 html,body{height:100%}
-body{
+body {
   margin:0;
-  font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
-  color:var(--text);
-  background:
-    radial-gradient(1000px 600px at 18% -10%, rgba(115,90,255,.22), transparent 60%),
-    radial-gradient(900px 500px at 90% 10%, rgba(102,217,255,.14), transparent 55%),
-    radial-gradient(900px 600px at 60% 120%, rgba(124,255,200,.10), transparent 55%),
-    var(--bg);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  color:#eaf0ff;
+
+  background: linear-gradient(
+    to bottom,
+    #6fb3d6 0%,      /* light blue from icon */
+    #3b7fa6 35%,     /* mid blue */
+    #102534 70%,     /* deep navy */
+    #070a0f 100%     /* near black */
+  );
+
+  min-height:100vh;
 }
 
 a{color:inherit;text-decoration:none}
