@@ -7,106 +7,77 @@
   <meta name="Generator" content="Cocoa HTML Writer">
   <meta name="CocoaVersion" content="2685.4">
   <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; -webkit-text-stroke: #000000}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; -webkit-text-stroke: #000000; min-height: 14.0px}
+    span.s1 {font-kerning: none}
   </style>
 </head>
 <body>
-<p class="p1">:root{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>--bg:#0b0f14;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>--panel:#0f1620;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>--text:#e8eef7;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>--muted:#a9b7c7;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>--line:#1e2a3a;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>--accent:#66d9ff;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>--accent2:#7cffc8;</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">*{box-sizing:border-box}</p>
-<p class="p1">html,body{height:100%}</p>
-<p class="p1">body{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>margin:0;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>background: radial-gradient(1200px 600px at 30% -10%, rgba(102,217,255,.12), transparent 60%),</p>
-<p class="p1"><span class="Apple-converted-space">              </span>radial-gradient(900px 500px at 90% 10%, rgba(124,255,200,.10), transparent 55%),</p>
-<p class="p1"><span class="Apple-converted-space">              </span>var(--bg);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>color:var(--text);</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">a{color:inherit;text-decoration:none}</p>
-<p class="p1">.wrap{max-width:1040px;margin:0 auto;padding:22px}</p>
-<p class="p1">.header{display:flex;align-items:center;justify-content:space-between}</p>
-<p class="p1">.logo{font-weight:800;letter-spacing:.2px}</p>
-<p class="p1">.nav{display:flex;gap:16px}</p>
-<p class="p1">.nav a{color:var(--muted)}</p>
-<p class="p1">.nav a:hover{color:var(--text)}</p>
-<p class="p2"><br></p>
-<p class="p1">.hero{display:grid;grid-template-columns:1.4fr .9fr;gap:26px;align-items:start;margin-top:18px}</p>
-<p class="p1">h1{font-size:44px;line-height:1.08;margin:0 0 12px}</p>
-<p class="p1">.sub{color:var(--muted);font-size:18px;margin:0 0 18px;max-width:56ch}</p>
-<p class="p2"><br></p>
-<p class="p1">.cta{display:flex;gap:12px;flex-wrap:wrap}</p>
-<p class="p1">.btn{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>display:inline-flex;align-items:center;justify-content:center;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>padding:11px 14px;border:1px solid var(--line);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>border-radius:14px;background:rgba(255,255,255,.02);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>color:var(--text);transition:transform .08s ease, border-color .15s ease;</p>
-<p class="p1">}</p>
-<p class="p1">.btn:hover{transform:translateY(-1px);border-color:#2a3a52}</p>
-<p class="p1">.btn.primary{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>border-color:transparent;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>background: linear-gradient(90deg, rgba(102,217,255,.18), rgba(124,255,200,.14));</p>
-<p class="p1"><span class="Apple-converted-space">  </span>box-shadow: 0 10px 30px rgba(0,0,0,.25);</p>
-<p class="p1">}</p>
-<p class="p1">.btn.full{width:100%}</p>
-<p class="p2"><br></p>
-<p class="p1">.fine{margin:14px 0 0;color:#7f93a8;font-size:13px}</p>
-<p class="p2"><br></p>
-<p class="p1">.card{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>border:1px solid var(--line);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>background:rgba(15,22,32,.66);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>border-radius:18px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>padding:16px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>backdrop-filter: blur(10px);</p>
-<p class="p1">}</p>
-<p class="p1">.cardTitle{font-weight:700;margin-bottom:10px}</p>
-<p class="p1">.kv{display:grid;grid-template-columns:90px 1fr;gap:8px 12px;margin:12px 0 14px}</p>
-<p class="p1">.k{color:var(--muted);font-size:13px}</p>
-<p class="p1">.v{font-size:14px}</p>
-<p class="p1">.small{color:var(--muted);font-size:13px;margin-top:10px}</p>
-<p class="p2"><br></p>
-<p class="p1">.features{margin-top:44px}</p>
-<p class="p1">h2{font-size:22px;margin:0 0 14px}</p>
-<p class="p1">.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}</p>
-<p class="p1">.feature{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>border:1px solid var(--line);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>background:rgba(255,255,255,.02);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>border-radius:16px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>padding:14px;</p>
-<p class="p1">}</p>
-<p class="p1">.feature h3{margin:0 0 6px;font-size:16px}</p>
-<p class="p1">.feature p{margin:0;color:var(--muted)}</p>
-<p class="p2"><br></p>
-<p class="p1">.release{margin-top:34px}</p>
-<p class="p1">.release ul{margin:10px 0 0;padding-left:18px;color:var(--muted)}</p>
-<p class="p2"><br></p>
-<p class="p1">.footer{</p>
-<p class="p1"><span class="Apple-converted-space">  </span>margin-top:44px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>padding-top:18px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>border-top:1px solid var(--line);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>display:flex;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>align-items:center;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>justify-content:space-between;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>color:var(--muted);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>font-size:14px;</p>
-<p class="p1">}</p>
-<p class="p1">.footerLinks{display:flex;gap:14px}</p>
-<p class="p1">.footerLinks a:hover{color:var(--text)}</p>
-<p class="p2"><br></p>
-<p class="p1">@media (max-width: 880px){</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.hero{grid-template-columns:1fr}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>h1{font-size:36px}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.grid{grid-template-columns:1fr}</p>
-<p class="p1">}</p>
+<p class="p1"><span class="s1">&lt;!doctype html&gt;</span></p>
+<p class="p1"><span class="s1">&lt;html lang="en"&gt;</span></p>
+<p class="p1"><span class="s1">&lt;head&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;meta charset="utf-8" /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1" /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;title&gt;Sora Browser&lt;/title&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;meta name="description" content="Sora — a lightweight macOS browser." /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;link rel="stylesheet" href="styles.css" /&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/head&gt;</span></p>
+<p class="p1"><span class="s1">&lt;body&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;header class="wrap header"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;div class="logo"&gt;Sora&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;nav class="nav"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;a href="#features"&gt;Features&lt;/a&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;a href="download.html"&gt;Download&lt;/a&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/nav&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/header&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;main class="wrap"&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;section class="hero"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;h1&gt;Fast. Lightweight. Built for macOS.&lt;/h1&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;p class="sub"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>A minimal browser focused on performance and simplicity.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="cta"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;a class="btn primary" href="download.html"&gt;Download for macOS&lt;/a&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;div class="card"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="cardTitle"&gt;Latest Version&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="kv"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="k"&gt;Version&lt;/div&gt;&lt;div class="v"&gt;1.0.0&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="k"&gt;macOS&lt;/div&gt;&lt;div class="v"&gt;12+&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="k"&gt;Build&lt;/div&gt;&lt;div class="v"&gt;Universal&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;a class="btn primary full" href="download.html"&gt;Get Sora&lt;/a&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="small"&gt;Drag to Applications&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/section&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;section id="features" class="features"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;h2&gt;Features&lt;/h2&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;div class="grid"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="feature"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;h3&gt;Lightweight UI&lt;/h3&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;p&gt;Clean interface with no clutter.&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="feature"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;h3&gt;Private Mode&lt;/h3&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;p&gt;Open private browsing windows instantly.&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/section&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;footer class="footer"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;div&gt;© 2026 Sora Browser&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/footer&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;/main&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;/body&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/html&gt;</span></p>
 </body>
 </html>
