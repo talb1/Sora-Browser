@@ -11,8 +11,8 @@
   --bg:       #0b0d12;
   --bg2:      #111318;
   --border:   rgba(255,255,255,0.07);
-  --text:     #e8eaf0;
-  --muted:    rgba(232,234,240,0.45);
+  --text:     #ffffff;
+  --muted:    rgba(255,255,255,0.72);
   --accent:   #7b8cff;
   --accent2:  #a78bfa;
   --radius:   14px;
@@ -25,7 +25,15 @@
 html { scroll-behavior: smooth; }
 
 body {
-  background: var(--bg);
+  background:
+    radial-gradient(800px 500px at 50% -10%, rgba(140,200,230,.35), transparent 60%),
+    linear-gradient(
+      to bottom,
+      #7ec3e6 0%,
+      #4c8fb3 40%,
+      #0f2534 75%,
+      #05080d 100%
+    );
   color: var(--text);
   font: 16px/1.6 -apple-system, system-ui, sans-serif;
   min-height: 100vh;
@@ -175,7 +183,7 @@ nav .pill:hover {
 .fine {
   font-size: 11px;
   font-family: var(--mono);
-  color: rgba(232,234,240,0.28);
+  color: rgba(255,255,255,0.5);
   opacity: 0;
   animation: fadeUp 0.5s ease 0.42s forwards;
 }
@@ -427,7 +435,7 @@ footer {
 .copy {
   font-size: 13px;
   font-family: var(--mono);
-  color: rgba(232,234,240,0.25);
+  color: rgba(255,255,255,0.45);
 }
 
 .footerLinks {
@@ -546,7 +554,7 @@ footer {
     <section class="downloadHero wrap">
       <div class="tag" aria-hidden="true">macOS · Free · No account needed</div>
       <h1>Download <em>Sora.</em></h1>
-      <p class="sub">Native, fast, and free. A browser built for macOS.</p>
+      <p class="sub">Native, fast, and free. No sign-up, no subscription — just a browser built for macOS.</p>
       <div class="cta">
         <a class="btn primary large" href="Sora.dmg" download>↓ &nbsp;Download for macOS</a>
       </div>
