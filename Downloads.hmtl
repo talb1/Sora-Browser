@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Download Sora — macOS Browser</title>
+  <meta name="description" content="Download Sora for macOS. Native SwiftUI browser with vertical tabs, ad blocking, and private windows." />
+
+  <meta property="og:title" content="Download Sora — macOS Browser" />
+  <meta property="og:description" content="Native SwiftUI browser with vertical tabs, ad blocking, and private windows." />
+  <meta property="og:type" content="website" />
+
+  <link rel="icon" href="favicon.ico" />
+  <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    .downloadHero {
+      padding: 80px 0 64px;
+      text-align: center;
+    }
+    .downloadHero .tag {
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+    .downloadHero h1 {
+      font-size: clamp(36px, 5vw, 58px);
+      font-weight: 700;
+      letter-spacing: -1.5px;
+      line-height: 1.08;
+      margin-bottom: 18px;
+      opacity: 0;
+      animation: fadeUp 0.55s ease 0.2s forwards;
+    }
+    .downloadHero .sub {
+      max-width: 420px;
+      margin: 0 auto;
+      text-align: center;
+      opacity: 0;
+      animation: fadeUp 0.55s ease 0.28s forwards;
+    }
+
+    /* ── Download card ──────────────────────────────────── */
+    .downloadCard {
+      max-width: 500px;
+      margin: 48px auto 80px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.04) inset,
+        0 40px 80px rgba(0,0,0,0.4),
+        0 0 60px rgba(123,140,255,0.05);
+      opacity: 0;
+      animation: fadeUp 0.65s ease 0.35s forwards;
+      position: relative;
+    }
+    .downloadCard::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(123,140,255,0.45), transparent);
+    }
+
+    .downloadCardTop {
+      padding: 26px 26px 22px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .versionRow {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .versionBadge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--accent);
+      background: rgba(123,140,255,0.1);
+      border: 1px solid rgba(123,140,255,0.2);
+      padding: 5px 12px;
+      border-radius: 999px;
+    }
+    .versionBadge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 2s ease infinite;
+    }
+
+    .releaseDate { font-size: 12px; font-family: var(--mono); color: var(--muted); }
+
+    .downloadMeta {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .metaItem { background: var(--bg2); padding: 12px 14px; }
+    .metaItem .k {
+      font-size: 10px;
+      font-family: var(--mono);
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 4px;
+    }
+    .metaItem .v { font-size: 16px; font-weight: 600; letter-spacing: -0.2px; }
+
+    .downloadCardBody { padding: 22px 26px 26px; }
+
+    .downloadBtn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 15px 20px;
+      background: var(--accent);
+      border-radius: 12px;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 4px 24px rgba(123,140,255,0.35);
+      margin-bottom: 12px;
+    }
+    .downloadBtn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 32px rgba(123,140,255,0.5);
+      color: #fff;
+    }
+    .downloadBtn:active { transform: translateY(0); }
+
+    .downloadBtnLeft { display: flex; align-items: center; gap: 12px; }
+    .downloadBtnIcon { font-size: 20px; line-height: 1; }
+    .downloadBtnMeta .label { font-size: 15px; font-weight: 600; }
+    .downloadBtnMeta .sublabel { font-size: 11px; font-weight: 400; opacity: 0.7; margin-top: 2px; }
+    .downloadBtnSize { font-size: 12px; font-family: var(--mono); opacity: 0.65; font-weight: 400; }
+
+    .checksumRow {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 13px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      overflow: hidden;
+    }
+    .checksumLabel { flex-shrink: 0; color: rgba(232,234,240,0.3); }
+    .checksumValue { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    /* ── Requirements ───────────────────────────────────── */
+    .reqs { padding: 0 0 80px; }
+    .reqs h2 {
+      font-size: clamp(28px, 3.5vw, 40px);
+      font-weight: 700;
+      letter-spacing: -1px;
+      margin-bottom: 32px;
+      line-height: 1.1;
+    }
+    .reqs h2 span { color: var(--muted); font-weight: 400; }
+
+    .reqsGrid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .reqCard {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      transition: border-color 0.2s, transform 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .reqCard::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(123,140,255,0.25), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .reqCard:hover { border-color: rgba(123,140,255,0.18); transform: translateY(-2px); }
+    .reqCard:hover::before { opacity: 1; }
+    .reqIcon { font-size: 22px; margin-bottom: 14px; }
+    .reqCard h3 {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      font-family: var(--mono);
+      margin-bottom: 6px;
+    }
+    .reqCard p { font-size: 15px; font-weight: 600; letter-spacing: -0.2px; }
+    .reqCard .note { font-size: 12px; color: var(--muted); font-weight: 400; margin-top: 4px; }
+
+    /* ── Changelog ──────────────────────────────────────── */
+    .changelog { padding: 0 0 100px; }
+    .changelog h2 {
+      font-size: clamp(28px, 3.5vw, 40px);
+      font-weight: 700;
+      letter-spacing: -1px;
+      margin-bottom: 32px;
+      line-height: 1.1;
+    }
+    .changelog h2 span { color: var(--muted); font-weight: 400; }
+
+    .changelogList { display: flex; flex-direction: column; gap: 2px; }
+
+    details {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    details:hover { border-color: rgba(123,140,255,0.15); }
+
+    summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      cursor: pointer;
+      user-select: none;
+      list-style: none;
+    }
+    summary::-webkit-details-marker { display: none; }
+
+    .releaseLeft { display: flex; align-items: center; gap: 12px; }
+    .releaseVersion { font-size: 16px; font-weight: 600; letter-spacing: -0.3px; }
+
+    .releaseBadge {
+      font-size: 10px;
+      font-family: var(--mono);
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+    .releaseBadge.latest {
+      background: rgba(123,140,255,0.12);
+      border: 1px solid rgba(123,140,255,0.2);
+      color: var(--accent);
+    }
+
+    .releaseRight { display: flex; align-items: center; gap: 16px; }
+    .releaseDate2 { font-size: 12px; font-family: var(--mono); color: var(--muted); }
+    .chevron { font-size: 11px; color: var(--muted); transition: transform 0.2s; }
+    details[open] .chevron { transform: rotate(180deg); }
+
+    .releaseBody {
+      padding: 0 24px 24px;
+      border-top: 1px solid var(--border);
+    }
+
+    .changeGroup { margin-top: 18px; }
+    .changeGroup h4 {
+      font-size: 10px;
+      font-family: var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .changeItems { display: flex; flex-direction: column; gap: 8px; }
+    .changeItem {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      color: rgba(232,234,240,0.8);
+      line-height: 1.55;
+    }
+    .changeItem::before {
+      content: '—';
+      color: var(--muted);
+      flex-shrink: 0;
+      font-family: var(--mono);
+      font-size: 11px;
+      margin-top: 2px;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.35; }
+    }
+
+    @media (max-width: 768px) {
+      .downloadHero { padding: 48px 0 40px; }
+      .reqsGrid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="wrap">
+    <a class="brand" href="index.html">Sora</a>
+    <nav aria-label="Main navigation">
+      <a href="index.html#features">Features</a>
+      <a class="pill" href="download.html" aria-current="page">Download</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- Hero -->
+    <section class="downloadHero wrap" aria-labelledby="dl-heading">
+      <div class="tag" aria-hidden="true">macOS · Universal · Free</div>
+      <h1 id="dl-heading">Get <em>Sora.</em></h1>
+      <p class="sub">No subscription, no account, no catch. Download, open, browse.</p>
+    </section>
+
+    <!-- Download card -->
+    <div class="wrap">
+      <div class="downloadCard">
+        <div class="downloadCardTop">
+          <div class="versionRow">
+            <span class="versionBadge">v1.0.0 — Latest</span>
+            <span class="releaseDate">March 2026</span>
+          </div>
+          <div class="downloadMeta">
+            <div class="metaItem">
+              <div class="k">Build</div>
+              <div class="v">Universal</div>
+            </div>
+            <div class="metaItem">
+              <div class="k">macOS</div>
+              <div class="v">12+</div>
+            </div>
+            <div class="metaItem">
+              <div class="k">Size</div>
+              <div class="v">~18 MB</div>
+            </div>
+          </div>
+        </div>
+        <div class="downloadCardBody">
+          <a class="downloadBtn" href="Sora.dmg" download>
+            <div class="downloadBtnLeft">
+              <span class="downloadBtnIcon" aria-hidden="true">⬇</span>
+              <div class="downloadBtnMeta">
+                <div class="label">Download Sora.dmg</div>
+                <div class="sublabel">macOS 12 Monterey or later · Apple &amp; Intel</div>
+              </div>
+            </div>
+            <span class="downloadBtnSize">~18 MB</span>
+          </a>
+          <div class="checksumRow" title="SHA-256 checksum">
+            <span class="checksumLabel">SHA-256</span>
+            <span class="checksumValue">a3f8c21e9b04d7…replace with real checksum</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Requirements -->
+    <section class="reqs wrap" aria-labelledby="reqs-heading">
+      <h2 id="reqs-heading">Requirements.<br/><span>Nothing exotic.</span></h2>
+      <div class="reqsGrid">
+        <div class="reqCard">
+          <div class="reqIcon" aria-hidden="true">🖥</div>
+          <h3>macOS</h3>
+          <p>12 Monterey or later</p>
+          <p class="note">Optimised for macOS 14 Sonoma</p>
+        </div>
+        <div class="reqCard">
+          <div class="reqIcon" aria-hidden="true">⚙️</div>
+          <h3>Chip</h3>
+          <p>Apple Silicon or Intel</p>
+          <p class="note">Universal binary — runs natively on both</p>
+        </div>
+        <div class="reqCard">
+          <div class="reqIcon" aria-hidden="true">💾</div>
+          <h3>Storage</h3>
+          <p>~50 MB</p>
+          <p class="note">Plus cache as you browse</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Changelog -->
+    <section class="changelog wrap" aria-labelledby="changelog-heading">
+      <h2 id="changelog-heading">Release<br/><span>notes.</span></h2>
+      <div class="changelogList">
+
+        <details open>
+          <summary>
+            <div class="releaseLeft">
+              <span class="releaseVersion">v1.0.0</span>
+              <span class="releaseBadge latest">Latest</span>
+            </div>
+            <div class="releaseRight">
+              <span class="releaseDate2">March 2026</span>
+              <span class="chevron" aria-hidden="true">▾</span>
+            </div>
+          </summary>
+          <div class="releaseBody">
+            <div class="changeGroup">
+              <h4>New</h4>
+              <div class="changeItems">
+                <div class="changeItem">Vertical tab sidebar with collapsible floating pill mode</div>
+                <div class="changeItem">Built-in ad and tracker blocking with live counters on new tab page</div>
+                <div class="changeItem">Private windows with full session isolation</div>
+                <div class="changeItem">Spotlight-style address bar with live Google suggestions and history search</div>
+                <div class="changeItem">⌘1–9 tab switching, ⌘L to focus address bar, ⌘T for new tab, ⌘W to close</div>
+                <div class="changeItem">Drag-to-reorder tabs in both sidebar and pill mode</div>
+                <div class="changeItem">New tab page with live clock, time-based greeting, and privacy stats</div>
+                <div class="changeItem">Theme system — Liquid Dark and more</div>
+                <div class="changeItem">Download manager with progress tracking</div>
+              </div>
+            </div>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="wrap">
+    <p class="copy">© 2026 Sora</p>
+    <nav class="footerLinks" aria-label="Footer navigation">
+      <a href="index.html">Home</a>
+      <a href="privacy.html">Privacy</a>
+    </nav>
+  </footer>
+
+</body>
+</html>
