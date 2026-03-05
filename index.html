@@ -22,8 +22,8 @@
       --bg:        #0b0d12;
       --bg2:       #111318;
       --border:    rgba(255,255,255,0.07);
-      --text:      #e8eaf0;
-      --muted:     rgba(232,234,240,0.45);
+      --text:      #ffffff;
+      --muted:     rgba(255,255,255,0.72);
       --accent:    #7b8cff;
       --accent2:   #a78bfa;
       --radius:    14px;
@@ -34,7 +34,15 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
-      background: var(--bg);
+      background:
+        radial-gradient(800px 500px at 50% -10%, rgba(140,200,230,.35), transparent 60%),
+        linear-gradient(
+          to bottom,
+          #7ec3e6 0%,
+          #4c8fb3 40%,
+          #0f2534 75%,
+          #05080d 100%
+        );
       color: var(--text);
       font-family: -apple-system, 'Helvetica Neue', sans-serif;
       font-size: 16px;
@@ -135,7 +143,8 @@
       font-weight: 700;
       line-height: 1.08;
       letter-spacing: -1.5px;
-      color: var(--text);
+      color: #ffffff;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.4);
       margin-bottom: 22px;
       opacity: 0;
       animation: fadeUp 0.55s ease 0.2s forwards;
@@ -198,7 +207,7 @@
 
     .fine {
       font-size: 11px;
-      color: rgba(232,234,240,0.28);
+      color: rgba(255,255,255,0.5);
       font-family: var(--mono);
       opacity: 0;
       animation: fadeUp 0.5s ease 0.42s forwards;
@@ -405,7 +414,7 @@
       font-weight: 600;
       letter-spacing: -0.2px;
       margin-bottom: 8px;
-      color: var(--text);
+      color: #ffffff;
     }
 
     .card p {
@@ -425,7 +434,7 @@
 
     footer .copy {
       font-size: 13px;
-      color: rgba(232,234,240,0.25);
+      color: rgba(255,255,255,0.45);
       font-family: var(--mono);
     }
 
