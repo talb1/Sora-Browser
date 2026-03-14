@@ -3,61 +3,86 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
   <title>Sora — A browser built for macOS</title>
   <meta name="description" content="Sora is a native macOS browser built with SwiftUI. Fast tabs, private windows, ad blocking, and a sidebar that stays out of your way." />
-
-  <!-- Open Graph -->
   <meta property="og:title" content="Sora — A browser built for macOS" />
   <meta property="og:description" content="Fast tabs, private windows, ad blocking, and a sidebar that stays out of your way." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://sorabrowser.app" />
-
-  <!-- Favicon placeholder -->
   <link rel="icon" href="favicon.ico" />
-
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
-    /* ── Tokens ─────────────────────────────────────────── */
     :root {
-      --bg:        #0b0d12;
-      --bg2:       rgba(0,0,0,0.2);
-      --border:    rgba(255,255,255,0.12);
-      --text:      #0d1117;
-      --muted:     rgba(10,20,40,0.65);
-      --accent:    #1a56db;
-      --accent2:   #1e3a8a;
-      --radius:    14px;
-      --mono:      'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      --bg:       #080a0f;
+      --surface:  #0e1117;
+      --border:   rgba(255,255,255,0.07);
+      --border2:  rgba(255,255,255,0.12);
+      --text:     #f0ede8;
+      --muted:    rgba(240,237,232,0.45);
+      --dim:      rgba(240,237,232,0.25);
+      --accent:   #4f8ef7;
+      --accent2:  #7eb3ff;
+      --gold:     #c8a96e;
+      --radius:   16px;
+      --mono:     'DM Mono', monospace;
+      --serif:    'Instrument Serif', Georgia, serif;
+      --sans:     'DM Sans', sans-serif;
     }
 
-    /* ── Reset ──────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
+
     body {
-      background:
-        radial-gradient(800px 500px at 50% -10%, rgba(140,200,230,.35), transparent 60%),
-        linear-gradient(
-          to bottom,
-          #7ec3e6 0%,
-          #4c8fb3 40%,
-          #0f2534 75%,
-          #05080d 100%
-        );
+      background-color: var(--bg);
       color: var(--text);
-      font-family: -apple-system, 'Helvetica Neue', sans-serif;
+      font-family: var(--sans);
       font-size: 16px;
       line-height: 1.6;
+      font-weight: 300;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
     }
+
     a { color: inherit; text-decoration: none; }
     img { display: block; max-width: 100%; }
 
+    /* ── Background ─────────────────────────────────────── */
+    .bg-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .bg-layer::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 50% at 50% -5%, rgba(79,142,247,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 30% at 80% 20%, rgba(126,179,255,0.06) 0%, transparent 50%),
+        radial-gradient(ellipse 50% 60% at 20% 80%, rgba(200,169,110,0.04) 0%, transparent 50%);
+    }
+    /* Subtle grid */
+    .bg-layer::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 80px 80px;
+      mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 0%, transparent 70%);
+    }
+
     /* ── Layout ─────────────────────────────────────────── */
     .wrap {
-      max-width: 1080px;
+      max-width: 1100px;
       margin: 0 auto;
-      padding: 0 28px;
+      padding: 0 32px;
+      position: relative;
+      z-index: 1;
     }
 
     /* ── Header ─────────────────────────────────────────── */
@@ -65,227 +90,311 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding-top: 28px;
-      padding-bottom: 28px;
+      padding: 32px 0;
+      opacity: 0;
+      animation: fadeDown 0.6s ease 0.1s forwards;
     }
 
     .brand {
-      font-size: 18px;
-      font-weight: 600;
-      letter-spacing: -0.3px;
+      font-family: var(--serif);
+      font-size: 22px;
+      font-style: italic;
       color: var(--text);
-      opacity: 0;
-      animation: fadeUp 0.5s ease forwards;
+      letter-spacing: -0.3px;
     }
 
     nav {
       display: flex;
       align-items: center;
-      gap: 28px;
-      opacity: 0;
-      animation: fadeUp 0.5s ease 0.1s forwards;
+      gap: 32px;
     }
-
     nav a {
-      font-size: 14px;
+      font-size: 13px;
+      font-weight: 400;
       color: var(--muted);
+      letter-spacing: 0.01em;
       transition: color 0.2s;
     }
     nav a:hover { color: var(--text); }
 
-    nav .pill {
-      background: rgba(255,255,255,0.2);
-      border: 1px solid rgba(255,255,255,0.35);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      color: #ffffff;
-      padding: 7px 16px;
-      border-radius: 999px;
-      font-size: 13px;
-      font-weight: 500;
-      transition: background 0.2s, border-color 0.2s;
+    .nav-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 18px;
+      border-radius: 8px;
+      background: rgba(79,142,247,0.12);
+      border: 1px solid rgba(79,142,247,0.25);
+      color: var(--accent2) !important;
+      font-size: 13px !important;
+      font-weight: 500 !important;
+      transition: background 0.2s, border-color 0.2s !important;
     }
-    nav .pill:hover {
-      background: rgba(255,255,255,0.3);
-      border-color: rgba(255,255,255,0.5);
+    .nav-download:hover {
+      background: rgba(79,142,247,0.2) !important;
+      border-color: rgba(79,142,247,0.4) !important;
+      color: #fff !important;
     }
 
     /* ── Hero ───────────────────────────────────────────── */
     .hero {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 64px;
+      gap: 80px;
       align-items: center;
-      padding: 80px 0 100px;
+      padding: 80px 0 120px;
     }
 
-    .tag {
+    .hero-kicker {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       font-family: var(--mono);
-      font-size: 11px;
-      color: #1a56db;
-      letter-spacing: 0.05em;
+      font-size: 10.5px;
+      color: var(--accent);
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      margin-bottom: 20px;
+      margin-bottom: 24px;
       opacity: 0;
-      animation: fadeUp 0.5s ease 0.15s forwards;
+      animation: fadeUp 0.6s ease 0.2s forwards;
     }
-    .tag::before {
+    .hero-kicker::before {
       content: '';
-      width: 20px;
+      width: 24px;
       height: 1px;
-      background: var(--accent);
-      opacity: 0.8;
+      background: currentColor;
+      opacity: 0.6;
     }
 
     h1 {
-      font-size: clamp(42px, 5.5vw, 64px);
-      font-weight: 700;
-      line-height: 1.08;
-      letter-spacing: -1.5px;
-      color: #ffffff;
-      text-shadow: 0 2px 24px rgba(0,0,0,0.35);
-      margin-bottom: 22px;
+      font-family: var(--serif);
+      font-size: clamp(48px, 5.5vw, 72px);
+      font-weight: 400;
+      font-style: italic;
+      line-height: 1.05;
+      letter-spacing: -1px;
+      color: var(--text);
+      margin-bottom: 8px;
       opacity: 0;
-      animation: fadeUp 0.55s ease 0.2s forwards;
+      animation: fadeUp 0.65s ease 0.28s forwards;
     }
-
-    h1 em {
+    .h1-plain {
       font-style: normal;
-      background: linear-gradient(135deg, #1a56db, #1e3a8a);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: clamp(38px, 4.5vw, 58px);
+      color: var(--muted);
+      display: block;
+      letter-spacing: -0.5px;
     }
 
     .sub {
-      font-size: 17px;
+      font-size: 16px;
       color: var(--muted);
-      max-width: 420px;
-      line-height: 1.65;
-      margin-bottom: 36px;
+      max-width: 400px;
+      line-height: 1.7;
+      margin-top: 28px;
+      margin-bottom: 40px;
+      font-weight: 300;
       opacity: 0;
-      animation: fadeUp 0.55s ease 0.28s forwards;
+      animation: fadeUp 0.65s ease 0.38s forwards;
     }
 
     .cta {
       display: flex;
       gap: 12px;
       flex-wrap: wrap;
-      margin-bottom: 20px;
       opacity: 0;
-      animation: fadeUp 0.55s ease 0.35s forwards;
+      animation: fadeUp 0.65s ease 0.46s forwards;
     }
 
     .btn {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 12px 24px;
+      padding: 12px 22px;
       border-radius: 10px;
       font-size: 14px;
-      font-weight: 500;
-      transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+      font-weight: 400;
+      font-family: var(--sans);
+      transition: transform 0.15s, box-shadow 0.2s, background 0.2s, border-color 0.2s;
       cursor: pointer;
+      letter-spacing: 0.01em;
     }
     .btn:hover { transform: translateY(-1px); }
     .btn:active { transform: translateY(0); }
 
-    .btn.primary {
-      background: rgba(255,255,255,0.2);
-      color: #ffffff;
-      border: 1px solid rgba(255,255,255,0.35);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+    .btn-primary {
+      background: var(--text);
+      color: var(--bg);
+      border: 1px solid transparent;
+      font-weight: 500;
+      box-shadow: 0 4px 20px rgba(240,237,232,0.1);
     }
-    .btn.primary:hover { background: rgba(255,255,255,0.3); border-color: rgba(255,255,255,0.5); box-shadow: 0 8px 32px rgba(0,0,0,0.2); }
+    .btn-primary:hover {
+      background: #fff;
+      box-shadow: 0 8px 32px rgba(240,237,232,0.18);
+    }
 
-    .btn.ghost {
+    .btn-ghost {
       background: transparent;
-      color: rgba(10,20,40,0.65);
-      border: 1px solid rgba(255,255,255,0.2);
+      color: var(--muted);
+      border: 1px solid var(--border2);
     }
-    .btn.ghost:hover { background: rgba(255,255,255,0.18); color: #ffffff; border-color: rgba(255,255,255,0.4); }
+    .btn-ghost:hover {
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+      border-color: rgba(255,255,255,0.2);
+    }
 
     .fine {
-      font-size: 11px;
-      color: rgba(10,20,40,0.5);
+      margin-top: 20px;
       font-family: var(--mono);
+      font-size: 10.5px;
+      color: var(--dim);
+      letter-spacing: 0.05em;
       opacity: 0;
-      animation: fadeUp 0.5s ease 0.42s forwards;
+      animation: fadeUp 0.6s ease 0.54s forwards;
     }
 
-    /* ── Browser mock panel ─────────────────────────────── */
+    /* ── Browser Panel ──────────────────────────────────── */
     .panel {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      overflow: hidden;
-      box-shadow:
-        0 0 0 1px rgba(255,255,255,0.04) inset,
-        0 40px 80px rgba(0,0,0,0.5),
-        0 0 60px rgba(123,140,255,0.06);
       opacity: 0;
-      animation: fadeUp 0.65s ease 0.3s forwards;
+      animation: fadeUp 0.8s ease 0.35s forwards;
       position: relative;
     }
 
-    .panel::before {
-      content: '';
+    .panel-glow {
       position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 60%);
+      inset: -40px;
+      background: radial-gradient(ellipse 60% 50% at 50% 30%, rgba(79,142,247,0.08), transparent 70%);
       pointer-events: none;
+      z-index: -1;
     }
 
-    .panelTop {
+    .panel-window {
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.03) inset,
+        0 32px 64px rgba(0,0,0,0.6),
+        0 8px 24px rgba(0,0,0,0.4);
+    }
+
+    .panel-titlebar {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 14px 18px;
+      gap: 0;
+      padding: 0;
+      height: 44px;
+      background: rgba(255,255,255,0.025);
       border-bottom: 1px solid var(--border);
-      background: rgba(255,255,255,0.02);
+      position: relative;
     }
 
-    .dots {
+    /* Sidebar strip */
+    .panel-sidebar {
+      width: 44px;
+      height: 100%;
+      border-right: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .sidebar-dots {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .sidebar-dots span {
+      display: block;
+      width: 14px;
+      height: 2px;
+      border-radius: 2px;
+      background: rgba(255,255,255,0.12);
+    }
+
+    .panel-titlebar-right {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 14px;
+    }
+
+    .traffic-lights {
       display: flex;
       gap: 6px;
+      flex-shrink: 0;
     }
-    .dots span {
+    .traffic-lights span {
       width: 10px;
       height: 10px;
       border-radius: 50%;
     }
-    .dots span:nth-child(1) { background: #ff5f57; }
-    .dots span:nth-child(2) { background: #febc2e; }
-    .dots span:nth-child(3) { background: #28c840; }
+    .tl-red    { background: #ff5f57; }
+    .tl-yellow { background: #febc2e; }
+    .tl-green  { background: #28c840; }
 
-    .panelUrlBar {
+    .panel-urlbar {
       flex: 1;
-      background: rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.05);
       border: 1px solid var(--border);
       border-radius: 7px;
       padding: 5px 12px;
-      font-size: 12px;
+      font-size: 11.5px;
       font-family: var(--mono);
       color: var(--muted);
       display: flex;
       align-items: center;
       gap: 6px;
     }
-    .panelUrlBar .lock { font-size: 10px; opacity: 0.5; }
-
-    .panelBody {
-      padding: 24px 22px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
+    .urlbar-lock {
+      color: #4ade80;
+      font-size: 9px;
     }
 
-    .stats {
+    /* Panel body with sidebar + content */
+    .panel-body {
+      display: flex;
+      height: 240px;
+    }
+
+    .panel-tabs {
+      width: 44px;
+      border-right: 1px solid var(--border);
+      background: rgba(0,0,0,0.15);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 12px 0;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .tab-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid transparent;
+    }
+    .tab-dot.active {
+      background: rgba(79,142,247,0.15);
+      border-color: rgba(79,142,247,0.3);
+    }
+
+    .panel-content {
+      flex: 1;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .panel-stats {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 1px;
@@ -293,141 +402,221 @@
       border-radius: 10px;
       overflow: hidden;
     }
-
-    .stat {
-      background: rgba(0,0,0,0.15);
-      padding: 14px 16px;
+    .panel-stat {
+      background: var(--surface);
+      padding: 12px 14px;
     }
-    .stat .k {
-      font-size: 10px;
+    .panel-stat .sk {
       font-family: var(--mono);
-      color: var(--muted);
+      font-size: 9.5px;
+      color: var(--dim);
       text-transform: uppercase;
-      letter-spacing: 0.06em;
-      margin-bottom: 4px;
+      letter-spacing: 0.08em;
+      margin-bottom: 5px;
     }
-    .stat .v {
-      font-size: 18px;
-      font-weight: 600;
+    .panel-stat .sv {
+      font-size: 17px;
+      font-weight: 500;
       color: var(--text);
       letter-spacing: -0.3px;
     }
 
-    .badges {
+    .panel-badges {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 7px;
     }
-
-    .badge {
+    .panel-badge {
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      font-size: 11px;
-      padding: 5px 10px;
-      border-radius: 6px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.15);
+      font-size: 10.5px;
+      font-family: var(--mono);
+      padding: 4px 9px;
+      border-radius: 5px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
       color: var(--muted);
     }
-    .badge .dot {
+    .badge-pip {
       width: 5px;
       height: 5px;
       border-radius: 50%;
       background: var(--accent);
-      opacity: 1;
     }
 
-    .btn.full { width: 100%; justify-content: center; }
+    .panel-cta {
+      margin-top: auto;
+    }
+    .panel-cta a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 9px;
+      border-radius: 8px;
+      background: rgba(79,142,247,0.12);
+      border: 1px solid rgba(79,142,247,0.2);
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--accent2);
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .panel-cta a:hover {
+      background: rgba(79,142,247,0.2);
+      border-color: rgba(79,142,247,0.35);
+    }
+
+    /* ── Divider ────────────────────────────────────────── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border2) 20%, var(--border2) 80%, transparent);
+      position: relative;
+      z-index: 1;
+    }
 
     /* ── Features ───────────────────────────────────────── */
     #features {
-      padding: 80px 0 100px;
+      padding: 100px 0 120px;
     }
 
-    .featuresHeader {
-      margin-bottom: 48px;
-    }
-
-    .featuresHeader .eyebrow {
+    .section-eyebrow {
       font-family: var(--mono);
-      font-size: 11px;
-      color: #1a56db;
+      font-size: 10.5px;
+      color: var(--accent);
       text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 12px;
+      letter-spacing: 0.12em;
+      margin-bottom: 16px;
     }
 
     #features h2 {
-      font-size: clamp(30px, 4vw, 44px);
-      font-weight: 700;
-      letter-spacing: -1px;
+      font-family: var(--serif);
+      font-size: clamp(34px, 4vw, 52px);
+      font-weight: 400;
+      font-style: italic;
+      letter-spacing: -0.5px;
       line-height: 1.1;
       color: var(--text);
+      margin-bottom: 8px;
+    }
+    #features h2 .plain {
+      font-style: normal;
+      font-family: var(--sans);
+      font-weight: 300;
+      color: var(--muted);
+      font-size: 0.85em;
     }
 
-    #features h2 span {
-      color: var(--muted);
-      font-weight: 400;
+    .features-header {
+      margin-bottom: 56px;
     }
 
     .grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
     }
 
     .card {
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: var(--radius);
-      padding: 28px;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      transition: border-color 0.2s, transform 0.2s;
+      background: var(--surface);
+      padding: 36px 32px;
       position: relative;
-      overflow: hidden;
+      transition: background 0.2s;
     }
-    .card::before {
+    .card:hover { background: rgba(255,255,255,0.03); }
+
+    /* Accent line on hover */
+    .card::after {
       content: '';
       position: absolute;
       top: 0; left: 0; right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255,179,71,0.3), transparent);
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent) 40%, transparent);
       opacity: 0;
       transition: opacity 0.3s;
     }
-    .card:hover {
-      border-color: rgba(255,179,71,0.3);
-      transform: translateY(-2px);
-    }
-    .card:hover::before { opacity: 1; }
+    .card:hover::after { opacity: 0.4; }
 
-    .cardIcon {
-      width: 36px;
-      height: 36px;
-      border-radius: 9px;
-      background: rgba(255,179,71,0.12);
-      border: 1px solid rgba(255,179,71,0.2);
+    /* Round corners on edge cards */
+    .card:first-child { border-radius: 17px 0 0 0; }
+    .card:nth-child(2) { border-radius: 0 17px 0 0; }
+    .card:nth-child(3) { border-radius: 0 0 0 17px; }
+    .card:last-child { border-radius: 0 0 17px 0; }
+
+    .card-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border2);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 16px;
-      margin-bottom: 18px;
+      font-size: 17px;
+      margin-bottom: 20px;
     }
 
     .card h3 {
-      font-size: 16px;
-      font-weight: 600;
+      font-size: 15px;
+      font-weight: 500;
       letter-spacing: -0.2px;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       color: var(--text);
     }
 
     .card p {
+      font-size: 13.5px;
+      color: var(--muted);
+      line-height: 1.65;
+      font-weight: 300;
+    }
+
+    /* ── CTA Banner ─────────────────────────────────────── */
+    .cta-banner {
+      margin: 0 0 100px;
+      padding: 56px 60px;
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+    .cta-banner::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(79,142,247,0.08), transparent 70%);
+      pointer-events: none;
+    }
+    .cta-banner-text h3 {
+      font-family: var(--serif);
+      font-size: 32px;
+      font-weight: 400;
+      font-style: italic;
+      letter-spacing: -0.4px;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .cta-banner-text p {
       font-size: 14px;
       color: var(--muted);
-      line-height: 1.6;
+      font-weight: 300;
+    }
+    .cta-banner-actions {
+      display: flex;
+      gap: 12px;
+      flex-shrink: 0;
     }
 
     /* ── Footer ─────────────────────────────────────────── */
@@ -437,177 +626,241 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      position: relative;
+      z-index: 1;
     }
-
-    footer .copy {
-      font-size: 13px;
-      color: rgba(255,245,238,0.4);
+    .footer-brand {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 16px;
+      color: var(--dim);
+    }
+    .footer-copy {
       font-family: var(--mono);
+      font-size: 11px;
+      color: var(--dim);
     }
-
-    .footerLinks {
+    .footer-links {
       display: flex;
       gap: 24px;
     }
-    .footerLinks a {
-      font-size: 13px;
-      color: rgba(255,235,210,0.55);
+    .footer-links a {
+      font-size: 12.5px;
+      color: var(--dim);
       transition: color 0.2s;
     }
-    .footerLinks a:hover { color: var(--text); }
-
-    /* ── Noise overlay ──────────────────────────────────── */
-    body::after {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events: none;
-      opacity: 0.35;
-      z-index: 999;
-    }
+    .footer-links a:hover { color: var(--muted); }
 
     /* ── Animations ─────────────────────────────────────── */
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(14px); }
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-8px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     /* ── Responsive ─────────────────────────────────────── */
-    @media (max-width: 768px) {
+    @media (max-width: 860px) {
       .hero {
         grid-template-columns: 1fr;
-        gap: 48px;
-        padding: 48px 0 72px;
+        gap: 56px;
+        padding: 56px 0 80px;
       }
-      .grid {
-        grid-template-columns: 1fr;
-      }
-      .stats {
-        grid-template-columns: repeat(3, 1fr);
+      .grid { grid-template-columns: 1fr; }
+      .card:first-child  { border-radius: 17px 17px 0 0; }
+      .card:nth-child(2) { border-radius: 0; }
+      .card:nth-child(3) { border-radius: 0; }
+      .card:last-child   { border-radius: 0 0 17px 17px; }
+      .cta-banner {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 40px 32px;
       }
       footer {
         flex-direction: column;
         gap: 16px;
         text-align: center;
       }
+      .footer-brand { display: none; }
     }
   </style>
 </head>
 <body>
+  <div class="bg-layer" aria-hidden="true"></div>
 
   <header class="wrap">
     <a class="brand" href="index.html">Sora</a>
     <nav aria-label="Main navigation">
       <a href="#features">Features</a>
-      <a class="pill" href="download.html">Download</a>
+      <a href="download.html" class="nav-download">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v7M3 5.5l3 3 3-3M1 10h10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Download
+      </a>
     </nav>
   </header>
 
   <main>
     <section class="hero wrap" aria-labelledby="hero-heading">
-      <div class="heroText">
-        <div class="tag" aria-hidden="true">macOS · SwiftUI · Native</div>
+      <div>
+        <div class="hero-kicker" aria-hidden="true">macOS · SwiftUI · Native</div>
         <h1 id="hero-heading">
-          Browse without<br/>
-          <em>the noise.</em>
+          Built for<br/>
+          <span class="h1-plain">the web you use.</span>
         </h1>
         <p class="sub">
-          Sora is a native macOS browser that keeps your focus on the web —
-          not the interface. Vertical tabs, ad blocking, and private windows,
-          built entirely in SwiftUI.
+          Sora is a native macOS browser — vertical tabs, ad blocking, and private windows, 
+          built entirely in SwiftUI. Fast, focused, and out of your way.
         </p>
         <div class="cta">
-          <a class="btn primary" href="download.html">
+          <a class="btn btn-primary" href="download.html">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.5v8M4 7l3 3.5L10 7M1.5 12h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
             Download for macOS
           </a>
-          <a class="btn ghost" href="#features">See what's inside</a>
+          <a class="btn btn-ghost" href="#features">See features</a>
         </div>
-        <p class="fine">// no trackers · static html · loads instantly</p>
+        <p class="fine">// free · no trackers · static html</p>
       </div>
 
-      <!-- Browser mock -->
-      <div class="panel" aria-hidden="true" role="img" aria-label="Sora browser preview">
-        <div class="panelTop">
-          <div class="dots">
-            <span></span><span></span><span></span>
-          </div>
-          <div class="panelUrlBar">
-            <span class="lock">🔒</span>
-            sorabrowser.app
-          </div>
-        </div>
-        <div class="panelBody">
-          <div class="stats">
-            <div class="stat">
-              <div class="k">Version</div>
-              <div class="v">1.0</div>
+      <div class="panel" aria-hidden="true">
+        <div class="panel-glow"></div>
+        <div class="panel-window">
+          <div class="panel-titlebar">
+            <div class="panel-sidebar">
+              <div class="sidebar-dots">
+                <span></span><span></span><span></span>
+              </div>
             </div>
-            <div class="stat">
-              <div class="k">Build</div>
-              <div class="v">Universal</div>
-            </div>
-            <div class="stat">
-              <div class="k">macOS</div>
-              <div class="v">12+</div>
+            <div class="panel-titlebar-right">
+              <div class="traffic-lights">
+                <span class="tl-red"></span>
+                <span class="tl-yellow"></span>
+                <span class="tl-green"></span>
+              </div>
+              <div class="panel-urlbar">
+                <span class="urlbar-lock">🔒</span>
+                sorabrowser.app
+              </div>
             </div>
           </div>
-          <div class="badges">
-            <span class="badge"><span class="dot"></span>Vertical tabs</span>
-            <span class="badge"><span class="dot"></span>Ad blocking</span>
-            <span class="badge"><span class="dot"></span>Private windows</span>
-            <span class="badge"><span class="dot"></span>Native SwiftUI</span>
+          <div class="panel-body">
+            <div class="panel-tabs">
+              <div class="tab-dot active"></div>
+              <div class="tab-dot"></div>
+              <div class="tab-dot"></div>
+              <div class="tab-dot"></div>
+            </div>
+            <div class="panel-content">
+              <div class="panel-stats">
+                <div class="panel-stat">
+                  <div class="sk">Version</div>
+                  <div class="sv">1.0</div>
+                </div>
+                <div class="panel-stat">
+                  <div class="sk">Build</div>
+                  <div class="sv">Universal</div>
+                </div>
+                <div class="panel-stat">
+                  <div class="sk">macOS</div>
+                  <div class="sv">12+</div>
+                </div>
+              </div>
+              <div class="panel-badges">
+                <span class="panel-badge"><span class="badge-pip"></span>Vertical tabs</span>
+                <span class="panel-badge"><span class="badge-pip"></span>Ad blocking</span>
+                <span class="panel-badge"><span class="badge-pip"></span>Private windows</span>
+                <span class="panel-badge"><span class="badge-pip"></span>Native SwiftUI</span>
+              </div>
+              <div class="panel-cta">
+                <a href="download.html">Get Sora — Free →</a>
+              </div>
+            </div>
           </div>
-          <a class="btn primary full" href="download.html">Get Sora — Free</a>
         </div>
       </div>
     </section>
 
+    <div class="wrap"><div class="divider"></div></div>
+
     <section id="features" class="wrap" aria-labelledby="features-heading">
-      <div class="featuresHeader">
-        <p class="eyebrow">Features</p>
+      <div class="features-header reveal">
+        <p class="section-eyebrow">Features</p>
         <h2 id="features-heading">
           Everything you need.<br/>
-          <span>Nothing you don't.</span>
+          <span class="plain">Nothing you don't.</span>
         </h2>
       </div>
 
-      <div class="grid">
+      <div class="grid reveal">
         <div class="card">
-          <div class="cardIcon" aria-hidden="true">⌨️</div>
+          <div class="card-icon" aria-hidden="true">⌨️</div>
           <h3>Keyboard-native</h3>
-          <p>⌘L to search, ⌘T for a new tab, ⌘1–9 to jump between tabs.
-            Every action has a shortcut so your hands never leave the keyboard.</p>
+          <p>⌘L to search, ⌘T for a new tab, ⌘1–9 to jump between tabs. Every action has a shortcut so your hands never leave the keyboard.</p>
         </div>
         <div class="card">
-          <div class="cardIcon" aria-hidden="true">🛡</div>
+          <div class="card-icon" aria-hidden="true">🛡</div>
           <h3>Built-in ad blocking</h3>
-          <p>Block ads and third-party trackers at the network level.
-            See exactly how many were stopped — right on your new tab page.</p>
+          <p>Block ads and third-party trackers at the network level. See exactly how many were stopped — right on your new tab page.</p>
         </div>
         <div class="card">
-          <div class="cardIcon" aria-hidden="true">🗂</div>
+          <div class="card-icon" aria-hidden="true">🗂</div>
           <h3>Vertical sidebar</h3>
-          <p>A collapsible tab sidebar that pins to a floating icon bar when you
-            want it out of the way. Drag tabs to reorder. Your workflow, your layout.</p>
+          <p>A collapsible tab sidebar that pins to a floating icon bar when you want it out of the way. Drag tabs to reorder. Your workflow, your layout.</p>
         </div>
         <div class="card">
-          <div class="cardIcon" aria-hidden="true">🔒</div>
+          <div class="card-icon" aria-hidden="true">🔒</div>
           <h3>Private windows</h3>
-          <p>Spin up a private session in one keystroke. No history, no cookies,
-            no trace — closed the moment you're done.</p>
+          <p>Spin up a private session in one keystroke. No history, no cookies, no trace — closed the moment you're done.</p>
         </div>
       </div>
     </section>
+
+    <div class="wrap">
+      <div class="cta-banner reveal">
+        <div class="cta-banner-text">
+          <h3>Ready to browse better?</h3>
+          <p>Free download. No account. Works on Apple Silicon and Intel.</p>
+        </div>
+        <div class="cta-banner-actions">
+          <a class="btn btn-primary" href="download.html">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.5v8M4 7l3 3.5L10 7M1.5 12h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Download for macOS
+          </a>
+          <a class="btn btn-ghost" href="https://github.com/talb1/Sora-Browser" target="_blank" rel="noopener">View on GitHub</a>
+        </div>
+      </div>
+    </div>
   </main>
 
   <footer class="wrap">
-    <p class="copy">© 2026 Sora</p>
-    <nav class="footerLinks" aria-label="Footer navigation">
+    <span class="footer-brand">Sora</span>
+    <p class="footer-copy">© 2026 Sora</p>
+    <nav class="footer-links" aria-label="Footer navigation">
       <a href="download.html">Download</a>
       <a href="privacy.html">Privacy</a>
+      <a href="https://github.com/talb1/Sora-Browser" target="_blank" rel="noopener">GitHub</a>
     </nav>
   </footer>
 
+  <script>
+    // Scroll reveal
+    const observer = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } }),
+      { threshold: 0.12 }
+    );
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
 </body>
 </html>
