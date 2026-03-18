@@ -5,24 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Privacy — Sora</title>
   <meta name="description" content="Sora doesn't collect, store, or transmit any personal data. Here's exactly what that means." />
+  <meta property="og:title" content="Privacy — Sora" />
+  <meta property="og:description" content="Sora is a local app. No servers, no accounts, no analytics. There's nothing to collect and nowhere to send it." />
   <link rel="icon" href="favicon.ico" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg:       #080a0f;
-      --surface:  #0e1117;
-      --border:   rgba(255,255,255,0.07);
-      --border2:  rgba(255,255,255,0.12);
-      --text:     #f0ede8;
-      --muted:    rgba(240,237,232,0.45);
-      --dim:      rgba(240,237,232,0.25);
-      --accent:   #4f8ef7;
-      --accent2:  #7eb3ff;
-      --mono:     'DM Mono', monospace;
-      --serif:    'Instrument Serif', Georgia, serif;
-      --sans:     'DM Sans', sans-serif;
+      --bg: #090b12;
+      --surface: rgba(255,255,255,0.04);
+      --border: rgba(255,255,255,0.08);
+      --border-strong: rgba(255,255,255,0.13);
+      --text: #f5f4f2;
+      --muted: rgba(245,244,242,0.55);
+      --dim: rgba(245,244,242,0.28);
+      --blue: #4d73f5;
+      --blue-light: #73b4ff;
+      --purple: #9b6dff;
+      --teal: #00c7e0;
+      --green: #3dd89a;
+      --gold: #ffc840;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -31,248 +31,258 @@
     body {
       background-color: var(--bg);
       color: var(--text);
-      font-family: var(--sans);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       font-size: 16px;
       line-height: 1.6;
-      font-weight: 300;
+      font-weight: 400;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
     }
 
     a { color: inherit; text-decoration: none; }
-    a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+    a:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; border-radius: 4px; }
 
+    /* ── Background ─────────────────────────────────────────── */
     .bg-layer {
       position: fixed;
       inset: 0;
       pointer-events: none;
       z-index: 0;
-    }
-    .bg-layer::before {
-      content: '';
-      position: absolute;
-      inset: 0;
       background:
-        radial-gradient(ellipse 70% 50% at 50% -5%, rgba(79,142,247,0.08) 0%, transparent 60%);
-    }
-    .bg-layer::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-      background-size: 80px 80px;
-      mask-image: radial-gradient(ellipse 80% 40% at 50% 0%, black 0%, transparent 70%);
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(77,115,245,0.18) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 40% at 5% 85%, rgba(120,50,230,0.1) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 35% at 98% 35%, rgba(0,199,224,0.07) 0%, transparent 55%),
+        #090b12;
     }
 
+    /* ── Layout ─────────────────────────────────────────────── */
     .wrap {
-      max-width: 1100px;
+      max-width: 1120px;
       margin: 0 auto;
       padding: 0 32px;
       position: relative;
       z-index: 1;
     }
 
-    /* ── Header ── */
+    /* ── Header ─────────────────────────────────────────────── */
     header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 32px 0;
+      padding: 28px 0;
       opacity: 0;
-      animation: fadeDown 0.6s ease 0.1s forwards;
+      animation: fadeDown 0.55s ease 0.05s forwards;
     }
+
     .brand {
-      font-family: var(--serif);
-      font-size: 22px;
-      font-style: italic;
+      font-size: 20px;
+      font-weight: 600;
       color: var(--text);
+      letter-spacing: -0.4px;
     }
-    nav { display: flex; align-items: center; gap: 32px; }
-    nav a { font-size: 13px; font-weight: 400; color: var(--muted); transition: color 0.2s; }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    nav a {
+      font-size: 13.5px;
+      font-weight: 400;
+      color: var(--muted);
+      letter-spacing: 0.01em;
+      transition: color 0.2s;
+    }
     nav a:hover { color: var(--text); }
+
     .nav-download {
       display: inline-flex;
       align-items: center;
       gap: 7px;
-      padding: 8px 18px;
-      border-radius: 8px;
-      background: rgba(79,142,247,0.12);
-      border: 1px solid rgba(79,142,247,0.25);
-      color: var(--accent2) !important;
+      padding: 8px 16px;
+      border-radius: 9px;
+      background: rgba(77,115,245,0.14);
+      border: 1px solid rgba(77,115,245,0.3);
+      color: var(--blue-light) !important;
       font-size: 13px !important;
       font-weight: 500 !important;
-      transition: background 0.2s, border-color 0.2s !important;
+      transition: background 0.2s, border-color 0.2s, color 0.2s !important;
     }
     .nav-download:hover {
-      background: rgba(79,142,247,0.2) !important;
-      border-color: rgba(79,142,247,0.4) !important;
+      background: rgba(77,115,245,0.24) !important;
+      border-color: rgba(77,115,245,0.45) !important;
       color: #fff !important;
     }
 
-    /* ── Page hero ── */
+    /* ── Hero ───────────────────────────────────────────────── */
     .page-hero {
-      padding: 80px 0 64px;
-      max-width: 640px;
+      padding: 80px 0 60px;
+      max-width: 680px;
       opacity: 0;
-      animation: fadeUp 0.65s ease 0.2s forwards;
+      animation: fadeUp 0.6s ease 0.15s forwards;
     }
-    .hero-kicker {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      font-family: var(--mono);
-      font-size: 10.5px;
-      color: var(--accent);
-      letter-spacing: 0.12em;
+
+    .eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--blue);
       text-transform: uppercase;
-      margin-bottom: 24px;
+      letter-spacing: 0.14em;
+      margin-bottom: 22px;
     }
-    .hero-kicker::before {
-      content: '';
-      width: 24px;
-      height: 1px;
-      background: currentColor;
-      opacity: 0.6;
-    }
+
     .page-hero h1 {
-      font-family: var(--serif);
       font-size: clamp(40px, 5vw, 60px);
-      font-weight: 400;
-      font-style: italic;
+      font-weight: 700;
+      letter-spacing: -1.8px;
       line-height: 1.05;
-      letter-spacing: -0.8px;
       color: var(--text);
       margin-bottom: 20px;
     }
+
     .page-hero .sub {
-      font-size: 16px;
+      font-size: 17px;
       color: var(--muted);
-      line-height: 1.7;
       font-weight: 300;
-      max-width: 520px;
+      line-height: 1.7;
+      max-width: 540px;
     }
 
-    /* ── Summary cards ── */
+    /* ── Summary cards ───────────────────────────────────────── */
     .summary-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border2);
-      border-radius: 16px;
-      overflow: hidden;
+      gap: 16px;
       margin-bottom: 72px;
       opacity: 0;
-      animation: fadeUp 0.65s ease 0.3s forwards;
+      animation: fadeUp 0.6s ease 0.28s forwards;
     }
+
     .summary-card {
-      background: var(--surface);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       padding: 28px 26px;
-      transition: background 0.2s;
+      transition: border-color 0.2s ease, background 0.2s ease;
     }
-    .summary-card:hover { background: rgba(255,255,255,0.03); }
+    .summary-card:hover {
+      border-color: rgba(255,255,255,0.16);
+      background: rgba(255,255,255,0.06);
+    }
+
     .summary-icon {
-      font-size: 22px;
-      margin-bottom: 14px;
+      font-size: 26px;
+      margin-bottom: 16px;
+      line-height: 1;
     }
     .summary-card h3 {
-      font-size: 14px;
-      font-weight: 500;
+      font-size: 15px;
+      font-weight: 600;
       color: var(--text);
-      margin-bottom: 6px;
-      letter-spacing: -0.1px;
+      letter-spacing: -0.2px;
+      margin-bottom: 8px;
     }
     .summary-card p {
-      font-size: 13px;
+      font-size: 13.5px;
       color: var(--muted);
-      line-height: 1.6;
+      line-height: 1.65;
       font-weight: 300;
     }
 
-    /* ── Content ── */
+    /* ── Content ─────────────────────────────────────────────── */
     .content {
-      max-width: 680px;
+      max-width: 700px;
       padding-bottom: 100px;
       opacity: 0;
-      animation: fadeUp 0.65s ease 0.4s forwards;
+      animation: fadeUp 0.6s ease 0.4s forwards;
     }
 
-    .section {
-      margin-bottom: 52px;
+    .prose-section {
+      margin-bottom: 0;
     }
 
     .section-label {
-      font-family: var(--mono);
-      font-size: 10.5px;
-      color: var(--accent);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--blue);
       text-transform: uppercase;
-      letter-spacing: 0.12em;
-      margin-bottom: 16px;
-    }
-
-    .section h2 {
-      font-family: var(--serif);
-      font-size: 24px;
-      font-weight: 400;
-      font-style: italic;
-      color: var(--text);
-      letter-spacing: -0.2px;
+      letter-spacing: 0.14em;
       margin-bottom: 14px;
     }
 
-    .section p {
+    .prose-section h2 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--text);
+      margin-bottom: 14px;
+    }
+
+    .prose-section p {
       font-size: 14.5px;
       color: var(--muted);
-      line-height: 1.75;
+      line-height: 1.78;
       font-weight: 300;
       margin-bottom: 12px;
     }
-    .section p:last-child { margin-bottom: 0; }
+    .prose-section p:last-child { margin-bottom: 0; }
 
-    .section ul {
+    .prose-section ul {
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 11px;
       margin-top: 4px;
     }
-    .section ul li {
+    .prose-section ul li {
       display: flex;
       align-items: flex-start;
       gap: 12px;
       font-size: 14px;
       color: var(--muted);
-      line-height: 1.65;
+      line-height: 1.68;
       font-weight: 300;
     }
-    .section ul li::before {
+    .prose-section ul li::before {
       content: '';
-      width: 4px;
-      height: 4px;
+      width: 5px;
+      height: 5px;
       border-radius: 50%;
-      background: var(--accent);
+      background: var(--blue);
       opacity: 0.5;
       margin-top: 9px;
       flex-shrink: 0;
     }
-    .section ul li strong {
+    .prose-section ul li strong {
       color: var(--text);
       font-weight: 500;
     }
+    code {
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      font-size: 12px;
+      color: var(--blue-light);
+      background: rgba(77,115,245,0.1);
+      padding: 1px 6px;
+      border-radius: 4px;
+    }
 
+    /* ── Divider ─────────────────────────────────────────────── */
     .divider {
       height: 1px;
-      background: linear-gradient(90deg, transparent, var(--border2) 20%, var(--border2) 80%, transparent);
+      background: linear-gradient(90deg, transparent, var(--border-strong) 30%, var(--border-strong) 70%, transparent);
       margin: 52px 0;
     }
 
+    /* ── Contact box ─────────────────────────────────────────── */
     .contact-box {
-      background: var(--surface);
-      border: 1px solid var(--border2);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border-strong);
       border-radius: 14px;
-      padding: 28px 30px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 30px 32px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -282,30 +292,30 @@
       font-size: 14px;
       color: var(--muted);
       font-weight: 300;
-      margin: 0;
+      line-height: 1.65;
     }
-    .contact-box a {
+    .contact-link {
       display: inline-flex;
       align-items: center;
-      gap: 7px;
-      padding: 9px 18px;
-      border-radius: 8px;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 9px;
       background: transparent;
-      border: 1px solid var(--border2);
+      border: 1px solid var(--border-strong);
       font-size: 13px;
-      font-weight: 400;
+      font-weight: 500;
       color: var(--muted);
       white-space: nowrap;
-      transition: background 0.2s, border-color 0.2s, color 0.2s;
       flex-shrink: 0;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
     }
-    .contact-box a:hover {
-      background: rgba(255,255,255,0.05);
-      border-color: rgba(255,255,255,0.2);
+    .contact-link:hover {
+      background: rgba(255,255,255,0.07);
+      border-color: rgba(255,255,255,0.22);
       color: var(--text);
     }
 
-    /* ── Footer ── */
+    /* ── Footer ─────────────────────────────────────────────── */
     footer {
       border-top: 1px solid var(--border);
       padding: 32px 0;
@@ -315,27 +325,37 @@
       position: relative;
       z-index: 1;
     }
-    .footer-brand { font-family: var(--serif); font-style: italic; font-size: 16px; color: var(--dim); }
-    .footer-copy { font-family: var(--mono); font-size: 11px; color: var(--dim); }
+    .footer-brand {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--dim);
+      letter-spacing: -0.3px;
+    }
+    .footer-copy { font-size: 12px; color: var(--dim); }
     .footer-links { display: flex; gap: 24px; }
-    .footer-links a { font-size: 12.5px; color: var(--dim); transition: color 0.2s; }
+    .footer-links a { font-size: 13px; color: var(--dim); transition: color 0.2s; }
     .footer-links a:hover { color: var(--muted); }
 
-    /* ── Animations ── */
+    /* ── Animations ─────────────────────────────────────────── */
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(16px); }
+      from { opacity: 0; transform: translateY(18px); }
       to   { opacity: 1; transform: translateY(0); }
     }
     @keyframes fadeDown {
-      from { opacity: 0; transform: translateY(-8px); }
+      from { opacity: 0; transform: translateY(-10px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
+    /* ── Responsive ─────────────────────────────────────────── */
     @media (max-width: 768px) {
       .summary-grid { grid-template-columns: 1fr; }
       .contact-box { flex-direction: column; align-items: flex-start; }
       footer { flex-direction: column; gap: 16px; text-align: center; }
       .footer-brand { display: none; }
+      nav a:not(.nav-download) { display: none; }
+    }
+    @media (max-width: 480px) {
+      .wrap { padding: 0 20px; }
     }
   </style>
 </head>
@@ -346,6 +366,7 @@
     <a class="brand" href="index.html">Sora</a>
     <nav aria-label="Main navigation">
       <a href="index.html#features">Features</a>
+      <a href="privacy.html" aria-current="page">Privacy</a>
       <a href="download.html" class="nav-download">
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v7M3 5.5l3 3 3-3M1 10h10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
         Download
@@ -355,33 +376,36 @@
 
   <main>
     <div class="wrap">
+      <!-- Hero -->
       <div class="page-hero">
-        <div class="hero-kicker" aria-hidden="true">Privacy Policy</div>
+        <p class="eyebrow">Privacy Policy</p>
         <h1>Your data stays yours.</h1>
-        <p class="sub">Sora is a local app. It doesn't have servers, accounts, or analytics. There's nothing to collect and nowhere to send it.</p>
+        <p class="sub">Sora is a local app. No servers, no accounts, no analytics. There's nothing to collect and nowhere to send it.</p>
       </div>
 
+      <!-- Summary cards -->
       <div class="summary-grid" aria-label="Privacy at a glance">
         <div class="summary-card">
           <div class="summary-icon" aria-hidden="true">🚫</div>
           <h3>No data collected</h3>
-          <p>Sora never collects, stores, or transmits any personal information.</p>
+          <p>Sora never collects, stores, or transmits any personal information about you or your browsing.</p>
         </div>
         <div class="summary-card">
           <div class="summary-icon" aria-hidden="true">📡</div>
           <h3>No servers</h3>
-          <p>There are no Sora servers. Everything stays on your Mac, always.</p>
+          <p>There are no Sora servers. Everything stays on your Mac, always — no cloud sync, no backend.</p>
         </div>
         <div class="summary-card">
           <div class="summary-icon" aria-hidden="true">🔓</div>
           <h3>Open source</h3>
-          <p>The full source code is on GitHub. Verify every claim yourself.</p>
+          <p>The full source code is on GitHub. You can read every line and verify every claim yourself.</p>
         </div>
       </div>
 
+      <!-- Content -->
       <div class="content">
 
-        <div class="section">
+        <div class="prose-section">
           <p class="section-label">Data Collection</p>
           <h2>What we collect</h2>
           <p>Nothing. Sora does not collect any data about you, your browsing, or your device. There are no analytics, no crash reporters, no telemetry, and no usage tracking of any kind.</p>
@@ -389,14 +413,14 @@
 
         <div class="divider"></div>
 
-        <div class="section">
+        <div class="prose-section">
           <p class="section-label">Local Storage</p>
           <h2>What stays on your Mac</h2>
           <p>Sora stores the following data locally on your device, in your user directory. None of it ever leaves your Mac.</p>
           <ul>
             <li><strong>Browsing history</strong> — stored locally, clearable at any time from Settings → History</li>
             <li><strong>Saved passwords</strong> — stored in your macOS Keychain, never in plaintext</li>
-            <li><strong>Site permissions</strong> — per-domain camera, mic, and JavaScript preferences saved to a local JSON file</li>
+            <li><strong>Site permissions</strong> — per-domain camera, microphone, and JavaScript preferences saved to a local JSON file</li>
             <li><strong>Settings &amp; preferences</strong> — theme, search engine, and other preferences stored via UserDefaults</li>
             <li><strong>Favicons</strong> — cached locally to avoid re-fetching on every visit</li>
           </ul>
@@ -404,54 +428,56 @@
 
         <div class="divider"></div>
 
-        <div class="section">
+        <div class="prose-section">
           <p class="section-label">Network Requests</p>
           <h2>What Sora connects to</h2>
-          <p>Sora makes network requests on your behalf when you browse. The first-party requests Sora makes automatically are: fetching favicons for visual tab identification, and a weekly blocklist update from EasyList to keep ad blocking current. Everything else is a direct result of your navigation.</p>
+          <p>Sora makes network requests on your behalf when you browse. The first-party requests Sora makes automatically are limited to favicon fetching and a weekly blocklist refresh. Everything else is a direct result of your navigation.</p>
           <ul>
             <li><strong>Search suggestions</strong> — sent to your chosen search engine as you type in the address bar</li>
-            <li><strong>Favicons</strong> — fetched from <code style="font-family:var(--mono);font-size:12px;color:var(--accent2)">favicons.googleapis.com</code> for visual tab identification</li>
-            <li><strong>Blocklist updates</strong> — once per week, Sora fetches a fresh copy of the EasyList content blocker rules from <code style="font-family:var(--mono);font-size:12px;color:var(--accent2)">easylist-downloads.adblockplus.org</code> to keep ad and tracker blocking current</li>
+            <li><strong>Favicons</strong> — fetched from <code>favicons.googleapis.com</code> for visual tab identification</li>
+            <li><strong>Blocklist updates</strong> — once per week, Sora fetches a fresh copy of the EasyList rules from <code>easylist-downloads.adblockplus.org</code> to keep ad and tracker blocking current</li>
             <li><strong>Update checks</strong> — handled by Sparkle, Apple's standard macOS update framework, which checks GitHub releases</li>
           </ul>
         </div>
 
         <div class="divider"></div>
 
-        <div class="section">
+        <div class="prose-section">
           <p class="section-label">Third Parties</p>
           <h2>Third-party websites</h2>
-          <p>When you visit a website in Sora, that website's own privacy policy applies. Sora's built-in ad and tracker blocking reduces the number of third parties that can observe your activity, but we have no control over the sites you visit.</p>
+          <p>When you visit a website in Sora, that website's own privacy policy applies. Sora's built-in ad and tracker blocking reduces the number of third parties that can observe your activity, but we have no control over the sites you choose to visit.</p>
         </div>
 
         <div class="divider"></div>
 
-        <div class="section">
+        <div class="prose-section">
           <p class="section-label">Browser Fingerprinting</p>
           <h2>Built-in fingerprint protection</h2>
           <p>Sora injects privacy hardening into every page before it loads. The following browser APIs are spoofed or restricted to prevent sites from building a unique fingerprint of your device:</p>
           <ul>
-            <li><strong>Canvas fingerprinting</strong> — pixel readback is noise-seeded per session so identical hardware returns different values</li>
-            <li><strong>WebGL vendor strings</strong> — GPU make and model are masked as generic "Apple GPU"</li>
+            <li><strong>Canvas fingerprinting</strong> — pixel readback is noise-seeded per session so identical hardware returns different values each time</li>
+            <li><strong>WebGL vendor strings</strong> — GPU make and model are masked as a generic "Apple GPU"</li>
             <li><strong>WebRTC IP leaks</strong> — raw LAN IP candidates are filtered; only relay and server-reflexive candidates are allowed</li>
-            <li><strong>Timezone inference</strong> — <code style="font-family:var(--mono);font-size:12px;color:var(--accent2)">Intl.DateTimeFormat</code> and <code style="font-family:var(--mono);font-size:12px;color:var(--accent2)">Date.getTimezoneOffset</code> are clamped to UTC</li>
-            <li><strong>Screen geometry</strong> — screen dimensions and pixel ratio are normalized to common values</li>
-            <li><strong>Font enumeration</strong> — <code style="font-family:var(--mono);font-size:12px;color:var(--accent2)">document.fonts</code> iteration is blocked; web font loading still works normally</li>
-            <li><strong>Performance timing</strong> — <code style="font-family:var(--mono);font-size:12px;color:var(--accent2)">performance.now()</code> precision is reduced to 1 ms to defeat timing-based fingerprints</li>
+            <li><strong>Timezone inference</strong> — <code>Intl.DateTimeFormat</code> and <code>Date.getTimezoneOffset</code> are clamped to UTC</li>
+            <li><strong>Screen geometry</strong> — screen dimensions and device pixel ratio are normalized to common values</li>
+            <li><strong>Font enumeration</strong> — <code>document.fonts</code> iteration is blocked; web font loading continues to work normally</li>
+            <li><strong>Performance timing</strong> — <code>performance.now()</code> precision is reduced to 1 ms to defeat timing-based fingerprints</li>
           </ul>
         </div>
 
         <div class="divider"></div>
 
-        <div class="section">
+        <div class="prose-section">
           <p class="section-label">Updates</p>
           <h2>Changes to this policy</h2>
           <p>If this policy ever changes, the updated version will be committed to the public GitHub repository with a clear description of what changed. Last updated: March 2026.</p>
         </div>
 
+        <div class="divider"></div>
+
         <div class="contact-box">
           <p>Questions about privacy? The source code is the most honest answer — but you can also open an issue on GitHub.</p>
-          <a href="https://github.com/talb1/Sora-Browser/issues" target="_blank" rel="noopener">
+          <a class="contact-link" href="https://github.com/talb1/Sora-Browser/issues" target="_blank" rel="noopener">
             Open an issue
             <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 9L9 2M9 2H4M9 2v5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
@@ -463,7 +489,7 @@
 
   <footer class="wrap">
     <span class="footer-brand">Sora</span>
-    <p class="footer-copy">© 2026 Sora</p>
+    <p class="footer-copy">&copy; 2026 Sora</p>
     <nav class="footer-links" aria-label="Footer navigation">
       <a href="index.html">Home</a>
       <a href="download.html">Download</a>
