@@ -151,7 +151,7 @@
     /* ── Summary cards ───────────────────────────────────────── */
     .summary-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 16px;
       margin-bottom: 72px;
       opacity: 0;
@@ -399,9 +399,9 @@
           <p>There are no Sora servers. Everything stays on your Mac, always — no cloud sync, no backend.</p>
         </div>
         <div class="summary-card">
-          <div class="summary-icon" aria-hidden="true">🔓</div>
-          <h3>Open source</h3>
-          <p>The full source code is on GitHub. You can read every line and verify every claim yourself.</p>
+          <div class="summary-icon" aria-hidden="true">🛡</div>
+          <h3>Built-in protections</h3>
+          <p>Fingerprinting, WebRTC leaks, tracker scripts, and more — blocked automatically on every page you visit.</p>
         </div>
       </div>
 
@@ -434,12 +434,12 @@
         <div class="prose-section">
           <p class="section-label">Network Requests</p>
           <h2>What Sora connects to</h2>
-          <p>Sora makes network requests on your behalf when you browse. The first-party requests Sora makes automatically are limited to favicon fetching and a weekly blocklist refresh. Everything else is a direct result of your navigation.</p>
+          <p>Sora makes network requests on your behalf when you browse. The only requests Sora initiates automatically are favicon fetching and periodic blocklist refreshes. Everything else is a direct result of your navigation.</p>
           <ul>
             <li><strong>Search suggestions</strong> — sent to your chosen search engine as you type in the address bar</li>
-            <li><strong>Favicons</strong> — fetched from <code>favicons.googleapis.com</code> for visual tab identification</li>
-            <li><strong>Blocklist updates</strong> — once per week, Sora fetches a fresh copy of the EasyList rules from <code>easylist-downloads.adblockplus.org</code> to keep ad and tracker blocking current</li>
-            <li><strong>Update checks</strong> — handled by Sparkle, Apple's standard macOS update framework, which checks GitHub releases</li>
+            <li><strong>Favicons</strong> — fetched to display site icons in your tab list</li>
+            <li><strong>Blocklist updates</strong> — fetched periodically to keep ad and tracker blocking current</li>
+            <li><strong>Update checks</strong> — Sora periodically checks for new versions so you stay up to date</li>
           </ul>
         </div>
 
@@ -473,15 +473,15 @@
         <div class="prose-section">
           <p class="section-label">Updates</p>
           <h2>Changes to this policy</h2>
-          <p>If this policy ever changes, the updated version will be committed to the public GitHub repository with a clear description of what changed. Last updated: March 2026.</p>
+          <p>If this policy ever changes, the updated version will be published here with a clear description of what changed. Last updated: March 2026.</p>
         </div>
 
         <div class="divider"></div>
 
         <div class="contact-box">
-          <p>Questions about privacy? The source code is the most honest answer — but you can also open an issue on GitHub.</p>
+          <p>Questions about privacy? We're happy to answer — reach out and we'll get back to you.</p>
           <a class="contact-link" href="https://github.com/talb1/Sora-Browser/issues" target="_blank" rel="noopener">
-            Open an issue
+            Get in touch
             <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 9L9 2M9 2H4M9 2v5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
         </div>
