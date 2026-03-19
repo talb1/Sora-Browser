@@ -454,23 +454,6 @@
         <div class="divider"></div>
 
         <div class="prose-section">
-          <p class="section-label">Browser Fingerprinting</p>
-          <h2>Built-in fingerprint protection</h2>
-          <p>Sora injects privacy hardening into every page before it loads. The following browser APIs are spoofed or restricted to prevent sites from building a unique fingerprint of your device:</p>
-          <ul>
-            <li><strong>Canvas fingerprinting</strong> — pixel readback is noise-seeded per session so identical hardware returns different values each time</li>
-            <li><strong>WebGL vendor strings</strong> — GPU make and model are masked as a generic "Apple GPU"</li>
-            <li><strong>WebRTC IP leaks</strong> — raw LAN IP candidates are filtered; only relay and server-reflexive candidates are allowed</li>
-            <li><strong>Timezone inference</strong> — <code>Intl.DateTimeFormat</code> and <code>Date.getTimezoneOffset</code> are clamped to UTC</li>
-            <li><strong>Screen geometry</strong> — screen dimensions and device pixel ratio are normalized to common values</li>
-            <li><strong>Font enumeration</strong> — <code>document.fonts</code> iteration is blocked; web font loading continues to work normally</li>
-            <li><strong>Performance timing</strong> — <code>performance.now()</code> precision is reduced to 1 ms to defeat timing-based fingerprints</li>
-          </ul>
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="prose-section">
           <p class="section-label">Updates</p>
           <h2>Changes to this policy</h2>
           <p>If this policy ever changes, the updated version will be published here with a clear description of what changed. Last updated: March 2026.</p>
